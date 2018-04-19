@@ -19,10 +19,21 @@ RUN apt-get update \
     php7.2-fpm \
     php7.2-curl \
     php7.2-zip \
-    nginx
+    nginx \
+    git \
+    gcc \
+    g++ \
+    make \
+ && mkdir /var/app \
+ && mkdir /var/app/resources
+
+RUN cd /var/app/resources && git clone https://github.com/michaelrsweet/htmldoc.git \
+ && cd htmldoc \
+ && ./configure \
+ && make \
+ && make install
 
 RUN sed -i -- 's/listen[[:space:]]*=[[:space:]]*.*/listen = 0.0.0.0:8080/g' /etc/php/7.2/fpm/pool.d/www.conf \
- && mkdir /var/app \
  && mkdir /var/app/docroot
 
 COPY ./application/ /var/app/docroot/
