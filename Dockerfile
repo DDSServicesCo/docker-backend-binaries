@@ -33,6 +33,15 @@ RUN cd /var/app/resources && git clone https://github.com/michaelrsweet/htmldoc.
  && make \
  && make install
 
+COPY ./resources/wkhtmltox-0.12.4_linux-generic-amd64.tar.xz /var/app/resources/
+RUN cd /var/app/resources && tar xf wkhtmltox-0.12.4_linux-generic-amd64.tar.xz \
+ && apt-get update && apt-get -y install \
+    libfontconfig1 \
+    libxrender1 \
+    fontconfig \
+    && cp wkhtmltox/bin/wkhtmlto* /usr/local/bin/
+
+
 RUN sed -i -- 's/listen[[:space:]]*=[[:space:]]*.*/listen = 0.0.0.0:8080/g' /etc/php/7.2/fpm/pool.d/www.conf \
  && mkdir /var/app/docroot
 
