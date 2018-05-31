@@ -1,5 +1,10 @@
 FROM debian:stable
 
+RUN useradd -mUG sudo app \
+ && echo 'app:app' | chpasswd \
+ && chsh -s /bin/bash app \
+ && mkdir /home/app/docroot
+
 RUN apt-get update \
  && apt-get -y install \
     apt-transport-https \
@@ -43,6 +48,8 @@ RUN cd /var/app/resources && tar xf wkhtmltox-0.12.4_linux-generic-amd64.tar.xz 
 
 
 RUN sed -i -- 's/listen[[:space:]]*=[[:space:]]*.*/listen = 0.0.0.0:8080/g' /etc/php/7.2/fpm/pool.d/www.conf \
+ && sed -i -- 's/www-data/app/g' /etc/php/7.2/fpm/pool.d/www.conf \
+ && sed -i -- 's/www-data/app/g' /etc/nginx/nginx.conf \
  && mkdir /var/app/docroot
 
 COPY ./application/ /var/app/docroot/
