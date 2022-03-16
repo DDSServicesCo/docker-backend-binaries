@@ -11,7 +11,11 @@ RUN apt-get update \
     gnupg \
     curl \
     lsb-release \
+    pkg-config \
+    libz-dev \
+    libjpeg62-turbo-dev \
     ca-certificates \
+    libfltk1.3-dev libgnutls28-dev libjpeg-dev libpng-dev pkg-config zlib1g-dev \
  && curl https://packages.sury.org/php/apt.gpg | apt-key add - \
  && echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list
 
